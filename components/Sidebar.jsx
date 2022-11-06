@@ -6,12 +6,26 @@ import {
   PlusCircleIcon,
   HeartIcon,
   RssIcon,
+  LogoutIcon,
 } from "@heroicons/react/outline";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Sidebar() {
+  const { data: session, status } = useSession();
+
+  console.log(session);
+
   return (
     <div className="text-gray-500 p-5 text-sm border-r border-gray-900">
       <div className="space-y-4">
+        <button
+          className="flex items-center space-x-2 hover:text-white"
+          onClick={() => signOut({ callbackUrl: "/login" })}
+        >
+          <LogoutIcon className="h-5 w-5" />
+          <p>LogOut</p>
+        </button>
+
         <button className="flex items-center space-x-2 hover:text-white">
           <HomeIcon className="h-5 w-5" />
           <p>Home</p>
@@ -42,7 +56,7 @@ export default function Sidebar() {
           <RssIcon className="h-5 w-5" />
           <p>Your Episodes </p>
         </button>
-        <hr className="border-t-[0.1px] border-gray-900" /> 
+        <hr className="border-t-[0.1px] border-gray-900" />
 
         {/**Playlist */}
 
