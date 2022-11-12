@@ -12,10 +12,10 @@ async function refreshAccessToken(token) {
 
     return {
       ...token,
-      accessToken: refreshedToken.access_token,
-      accessTokenExpires: Date.now + refreshedToken.expires_in * 1000, // =1h as 3600 returns
+      accessToken: refreshToken.access_token,
+      accessTokenExpires: Date.now + refreshToken.expires_in * 1000, // =1h as 3600 returns
       //from spotify
-      refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
+      refreshToken: refreshToken.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
     console.log(error);
