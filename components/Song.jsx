@@ -10,20 +10,19 @@ export default function Song({ order, track }) {
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
 
   const playSong = () => {
-    setCurrentTrackId(track.track.id);
-    setIsPlaying(true);
-    spotifyApi.play({
-      uris: [track.track.uri],
-    });
+    setCurrentTrackId(track.track.id),
+      setIsPlaying(true),
+      spotifyApi.play({
+        uris: [track.track.uri],
+      });
   };
 
   return (
     <div
       className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900
      rounded-lg cursor-pointer"
-      onClick={() => playSong}
     >
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4" onClick={() => playSong}>
         <p>{order + 1}</p>
         <img
           className="w-10 h-10"
