@@ -5,7 +5,6 @@ import Song from "./Song";
 export default function Songs() {
   const playlist = useRecoilValue(playlistState);
 
-  console.log(playlist);
   return (
     
     <div className="text-white">
