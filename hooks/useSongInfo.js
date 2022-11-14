@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import useSpotify from "./useSpotify";
 import { currentTrackIdState } from "../atoms/songAtom";
+import useSpotify from "./useSpotify";
 import { useEffect, useState } from "react";
 
 export default function useSongInfo() {
