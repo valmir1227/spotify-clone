@@ -23,6 +23,7 @@ export default function Center() {
   const [color, setColor] = useState(null);
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
+
   useEffect(() => {
     setColor(shuffle(colors).pop());
   }, [playlistId]);
@@ -33,9 +34,10 @@ export default function Center() {
       .then((data) => {
         setPlaylist(data.body);
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => console.log("Something went wrong!", err));
   }, [spotifyApi, playlistId]);
 
+  console.log("PAYLIST", playlist);
   return (
     <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
@@ -62,7 +64,7 @@ export default function Center() {
         <img
           className="w-44 h-44 shadow-2xl"
           src={
-            playlist.images
+            playlist?.images
               ? playlist?.images?.[0]?.url
               : "https://demo.tutorialzine.com/2015/03/html5-music-player/assets/img/default.png"
           }
@@ -71,7 +73,7 @@ export default function Center() {
         <div>
           <p>PLAYLIST</p>
           <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">
-            {playlist.name ? playlist.name : "Pick a Playlist"}
+            {playlist?.name ? playlist?.name : "Pick a Playlist"}
           </h1>
         </div>
       </section>

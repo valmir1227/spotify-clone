@@ -4,6 +4,13 @@ import { useRecoilState } from "recoil";
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 import useSpotify from "../hooks/useSpotify";
 import useSongInfo from "../hooks/useSongInfo";
+import { ReplyIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import {
+  FastForwardIcon,
+  PauseIcon,
+  PlayIcon,
+  RewindIcon,
+} from "@heroicons/react/solid";
 
 export default function Player() {
   const spotifyApi = useSpotify();
@@ -12,7 +19,7 @@ export default function Player() {
     useRecoilState(currentTrackIdState);
 
   const [isPlaying, setIsplaying] = useRecoilState(isPlayingState);
-  const [volume, setVolume] = useState(70);
+  const [volume, setVolume] = useState(50);
 
   const songInfo = useSongInfo();
   console.log("songInfo", songInfo);
@@ -34,7 +41,7 @@ export default function Player() {
     if (spotifyApi.getAccessToken() && !currentIdTrack) {
       {
         fetchCurrentSong();
-        setVolume(70);
+        setVolume(50);
       }
     }
   }, [currentTrackIdState, spotifyApi, session]);
@@ -52,11 +59,24 @@ export default function Player() {
           src={songInfo?.album?.images?.[0]?.url}
           alt=""
         />
+        <div>
+          <h3>{songInfo?.name}</h3>
+          <p>{songInfo?.artists?.[0]?.name}</p>
+        </div>
       </div>
+      {/*Center*/}
 
-      <div>
-        <h3>{songInfo?.name}</h3>
-        <p>{songInfo?.artists?.[0]?.name}</p>
+      <div className="flex items-center justify-evenly">
+        <SwitchHorizontalIcon className="button" />
+        <RewindIcon className="button" />
+
+        {isPlaying ? (
+          <PauseIcon className="button" onClick={handlePause} />
+        ) : (
+          <PlayIcon className="button" onClick={handlePause} />
+        )}
+        <FastForwardIcon className="button" />
+        <ReplyIcon className="button" />
       </div>
     </div>
   );
