@@ -5,11 +5,14 @@ import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 import useSpotify from "../hooks/useSpotify";
 import useSongInfo from "../hooks/useSongInfo";
 import { ReplyIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import { VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline";
 import {
   FastForwardIcon,
   PauseIcon,
   PlayIcon,
   RewindIcon,
+  VolumeUpIcon,
+  VolumeOffIcon,
 } from "@heroicons/react/solid";
 
 export default function Player() {
@@ -22,12 +25,10 @@ export default function Player() {
   const [volume, setVolume] = useState(50);
 
   const songInfo = useSongInfo();
-  console.log("songInfo", songInfo);
 
   const fetchCurrentSong = () => {
     if (!songInfo) {
       spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        console.log("Now playing", data.body?.item);
         setCurrentIdTrack(data.body?.item?.id);
 
         spotifyApi.getMyCurrentPlaybackState().then((data) => {
@@ -57,7 +58,6 @@ export default function Player() {
         <img
           className="hidden md:inline h-10 w-10"
           src={songInfo?.album?.images?.[0]?.url}
-          alt=""
         />
         <div>
           <h3>{songInfo?.name}</h3>
@@ -65,18 +65,51 @@ export default function Player() {
         </div>
       </div>
       {/*Center*/}
-
       <div className="flex items-center justify-evenly">
         <SwitchHorizontalIcon className="button" />
         <RewindIcon className="button" />
 
         {isPlaying ? (
-          <PauseIcon className="button" onClick={handlePause} />
+          <PauseIcon
+            className="button w-7 h-7"
+            onClick={() => setIsplaying(false)}
+          />
         ) : (
-          <PlayIcon className="button" onClick={handlePause} />
+          <PlayIcon
+            className="button w-7 h-7"
+            onClick={() => setIsplaying(true)}
+          />
         )}
         <FastForwardIcon className="button" />
         <ReplyIcon className="button" />
+      </div>
+      {/*Right*/}
+      <div className="flex items-center space-x-3 md:space-x-4 justify-end pr-5">
+        {volume > 0 ? (
+          <VolumeDownIcon
+            className="button"
+            onClick={() => {
+              volume > 0 && setVolume(volume - 10);
+            }}
+          />
+        ) : (
+          <VolumeOffIcon className="button fill-red-500" />
+        )}
+
+        <input
+          className="w-14 md:w-18"
+          type="range"
+          value={volume}
+          min={0}
+          max={100}
+          onChange={(e) => setVolume(Number(e.target.value))}
+        />
+        <VolumeUpIcon
+          className="button"
+          onClick={() => {
+            volume <= 100 && setVolume(volume + 10);
+          }}
+        />
       </div>
     </div>
   );
