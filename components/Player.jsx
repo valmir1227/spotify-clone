@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 import useSpotify from "../hooks/useSpotify";
@@ -14,6 +14,8 @@ import {
   VolumeUpIcon,
   VolumeOffIcon,
 } from "@heroicons/react/solid";
+
+import { debounce } from "lodash";
 
 export default function Player() {
   const spotifyApi = useSpotify();
@@ -47,6 +49,18 @@ export default function Player() {
     }
   }, [currentTrackIdState, spotifyApi, session]);
 
+  useEffect(() => {
+    if (volume > 0 && volume < 100) {
+      debouncedAdjustVolume(volume);
+    }
+  }, [volume]);
+
+  const debouncedAdjustVolume = useCallback(
+    debounce((volume) => {
+      spotifyApi.setVolume(volume);
+    }, 300)
+  );
+
   return (
     <div
       className="h-24 bg-gradient-to-b from-black to-gray-900 text-white grid grid-cols-3
@@ -57,7 +71,11 @@ export default function Player() {
       <div className="flex items-center space-x-4">
         <img
           className="hidden md:inline h-10 w-10"
-          src={songInfo?.album?.images?.[0]?.url}
+          src={
+            songInfo?.album?.images
+              ? songInfo?.album?.images?.[0]?.url
+              : "https://demo.tutorialzine.com/2015/03/html5-music-player/assets/img/default.png"
+          }
         />
         <div>
           <h3>{songInfo?.name}</h3>
@@ -97,7 +115,7 @@ export default function Player() {
         )}
 
         <input
-          className="w-14 md:w-18"
+          className="w-14 md:w-20 custom-input"
           type="range"
           value={volume}
           min={0}

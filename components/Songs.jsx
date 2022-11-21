@@ -6,7 +6,6 @@ export default function Songs() {
   const playlist = useRecoilValue(playlistState);
 
   return (
-    
     <div className="text-white">
       {playlist?.tracks?.items.map((track, i) => (
         <Song key={track.track.id} order={i} track={track} />

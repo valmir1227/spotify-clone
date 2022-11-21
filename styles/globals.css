@@ -4,6 +4,31 @@
 
 @layer components {
     .button {
-        @apply h-5 w-5 cursor-pointer hover:scale-125 transition transform duration-100 ease-out
+        @apply h-5 w-5 cursor-pointer hover:scale-125 transition transform duration-100 ease-out;
     }
 }
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background-color: rgb(75 85 99);
+    height: 5px;
+}
+
+/* Input Thumb  bolinha*/
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+background: green;
+ width: 10px;
+ height: 10px;
+ border-radius: 50%;
+ background-color: rgb(226 232 240);
+}
+
+
+
+
+
+
+
+
+

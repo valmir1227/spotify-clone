@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import { UsersIcon, MusicNoteIcon } from "@heroicons/react/solid";
 import { shuffle } from "lodash";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../atoms/playlistAtom";
@@ -37,7 +38,6 @@ export default function Center() {
       .catch((err) => console.log("Something went wrong!", err));
   }, [spotifyApi, playlistId]);
 
-  console.log("PAYLIST", playlist);
   return (
     <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
@@ -72,9 +72,20 @@ export default function Center() {
         />
         <div>
           <p>PLAYLIST</p>
-          <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">
+          <h1 className="text-2xl md:text-3xl xl:text-4xl font-bold">
             {playlist?.name ? playlist?.name : "Pick a Playlist"}
           </h1>
+          <p className="text-gray-400 my-3">{playlist?.description}</p>
+          <p className="flex space-x-4 my-3">
+            <span className="flex items-center gap-1 ">
+              <UsersIcon className="w-4 h-4" /> {playlist?.followers?.total}{" "}
+              followers
+            </span>
+            <span className="flex items-center gap-1 ">
+              <MusicNoteIcon className="w-4 h-4" />
+              {playlist?.tracks?.total} songs
+            </span>
+          </p>
         </div>
       </section>
       <div>
