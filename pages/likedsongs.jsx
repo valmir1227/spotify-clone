@@ -8,7 +8,16 @@ import UserLogin from "../components/UserLogin";
 import { playlistIdState } from "../atoms/playlistAtom";
 import { useRecoilValue } from "recoil";
 import { shuffle } from "lodash";
-import colors from "../utils/colors";
+
+const colors = [
+  "from-indigo-500",
+  "from-blue-500",
+  "from-green-500",
+  "from-red-500",
+  "from-yellow-500",
+  "from-pink-500",
+  "from-purple-500",
+];
 
 export default function LikedSongs() {
   const { data: session } = useSession();
@@ -37,11 +46,11 @@ export default function LikedSongs() {
       <main className="flex">
         <Sidebar />
         <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-          <UserLogin />
           <section
-            className={`flex items-end space-x-7 bg-gradient-to-b to-black
+            className={`flex relative items-end space-x-7 bg-gradient-to-b to-black
        ${color} h-80 text-white padding-8 w-full `}
           >
+            <UserLogin/>
             <img
               className="w-44 h-44 shadow-2xl "
               src="https://misc.scdn.co/liked-songs/liked-songs-300.png"

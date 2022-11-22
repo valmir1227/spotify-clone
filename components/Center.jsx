@@ -7,16 +7,18 @@ import useSpotify from "../hooks/useSpotify";
 import Songs from "../components/Songs";
 import UserLogin from "../components/UserLogin";
 import colors from "../utils/colors";
+import { useRouter } from "next/router";
 
 export default function Center() {
   const spotifyApi = useSpotify();
+  const router = useRouter();
   const [color, setColor] = useState(null);
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
 
   useEffect(() => {
     setColor(shuffle(colors).pop());
-  }, [playlistId]);
+  }, [playlistId, router]);
 
   useEffect(() => {
     spotifyApi
@@ -29,11 +31,11 @@ export default function Center() {
 
   return (
     <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-      <UserLogin />
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black
-       ${color} h-80 text-white padding-8 w-full`}
+        ${color} h-80 text-white padding-8 w-full`}
       >
+        <UserLogin />
         <img
           className="w-44 h-44 shadow-2xl"
           src={
